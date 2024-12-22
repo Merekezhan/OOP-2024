@@ -1,36 +1,26 @@
 package models;
-
-import java.util.Date;
-import java.util.Objects;
 import enums.LessonType;
-import enums.LanguageType;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 //Course.java
 public class Course {
-    private int courseId;
     private String courseName;
     private int credits;
     private LessonType lessonType;
-    private LanguageType language;
-    private Teacher instructor;
+  private List<Lesson> lessons;
+  private Teacher instructor;
 
-    public Course() {
+  public Course() {
     }
 
-    public Course(int courseId, String courseName, int credits, LessonType lessonType, LanguageType language, Teacher instructor) {
-        this.courseId = courseId;
+    public Course(String courseName, int credits, LessonType lessonType, Teacher instructor) {
         this.courseName = courseName;
         this.credits = credits;
         this.lessonType = lessonType;
-        this.language = language;
+        this.lessons = new ArrayList<>();
         this.instructor = instructor;
-    }
-
-    public int getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
     }
 
     public String getCourseName() {
@@ -57,12 +47,12 @@ public class Course {
         this.lessonType = lessonType;
     }
 
-    public LanguageType getLanguage() {
-        return language;
+    public List<Lesson> getLessons() {
+        return lessons;
     }
 
-    public void setLanguage(LanguageType language) {
-        this.language = language;
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
     }
 
   public Teacher getInstructor() {
@@ -73,27 +63,33 @@ public class Course {
     this.instructor = instructor;
   }
 
+    public void addLesson(Lesson lesson){
+        this.lessons.add(lesson);
+    }
+    public void removeLesson(Lesson lesson){
+        this.lessons.remove(lesson);
+    }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Course course = (Course) o;
-    return courseId == course.courseId && credits == course.credits && Objects.equals(courseName, course.courseName) && lessonType == course.lessonType && language == course.language;
+    return credits == course.credits && Objects.equals(courseName, course.courseName) && lessonType == course.lessonType ;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(courseId, courseName, credits, lessonType, language);
+    return Objects.hash(courseName, credits, lessonType);
   }
 
   @Override
   public String toString() {
     return "Course{" +
-        "courseId=" + courseId +
-        ", courseName='" + courseName + '\'' +
+        "courseName='" + courseName + '\'' +
         ", credits=" + credits +
         ", lessonType=" + lessonType +
-        ", language=" + language +
+        ", lessons=" + lessons +
         ", instructor=" + instructor +
         '}';
   }

@@ -3,44 +3,24 @@ package models;
 import java.util.Date;
 import java.util.Objects;
 //Employee.java
-public class Employee extends User {
-    private int employeeId;
-    private Date hireDate;
-
-    public Employee(){
-
+public abstract class Employee extends User {
+    private String name;
+  public Employee(){
+    super();
+  }
+    public Employee(String name, String password) {
+        super(name, password);
     }
-
-    public Employee(int userId,String username, String password,int employeeId, Date hireDate) {
-        super(userId,username, password);
-        this.employeeId = employeeId;
-        this.hireDate = hireDate;
-    }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Date getHireDate() {
-        return hireDate;
-    }
-
-    public void setHireDate(Date hireDate) {
-        this.hireDate = hireDate;
-    }
-
+    public abstract void sendMessage(String message);
+    public abstract void sendOrder(String order);
     @Override
     public void login() {
-      System.out.println("Employee " + getUsername() + " logged in!");
+        System.out.println("Employee " + getName() + " logged in!");
     }
 
     @Override
     public void logout() {
-      System.out.println("Employee " + getUsername() + " logged out!");
+        System.out.println("Employee " + getName() + " logged out!");
     }
 
     @Override
@@ -54,19 +34,18 @@ public class Employee extends User {
       if (o == null || getClass() != o.getClass()) return false;
       if (!super.equals(o)) return false;
       Employee employee = (Employee) o;
-      return employeeId == employee.employeeId;
+      return Objects.equals(name, employee.name);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(super.hashCode(), employeeId);
+      return Objects.hash(super.hashCode(), name);
     }
 
-  @Override
-  public String toString() {
-    return "Employee{" +
-        "employeeId=" + employeeId +
-        ", hireDate=" + hireDate +
-        "} " + super.toString();
-  }
+    @Override
+    public String toString() {
+      return "Employee{" +
+          "name='" + name + '\'' +
+          "} " + super.toString();
+    }
 }

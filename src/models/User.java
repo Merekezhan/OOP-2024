@@ -1,35 +1,25 @@
 package models;
 
 import java.util.Objects;
-
+//User.java
 public abstract class User {
-    private int userId;
-    private String username;
+  private String name;
     private String password;
 
     public User() {
     }
 
-    public User(int userId, String username, String password) {
-        this.userId = userId;
-        this.username = username;
+    public User(String name, String password) {
+        this.name = name;
         this.password = password;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -46,25 +36,24 @@ public abstract class User {
 
     public abstract boolean authenticate();
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    User user = (User) o;
-    return userId == user.userId && Objects.equals(username, user.username);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(name, user.name);
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(userId, username);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
-  @Override
-  public String toString() {
-    return "User{" +
-        "userId=" + userId +
-        ", username='" + username + '\'' +
-        ", password='" + password + '\'' +
-        '}';
-  }
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

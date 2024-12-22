@@ -1,17 +1,14 @@
 package models;
-
 import enums.ManagerType;
-import java.util.Date;
 import java.util.Objects;
 //Manager.java
 public class Manager extends Employee {
     private ManagerType managerType;
-
-  public Manager() {
-        super();
+    public Manager() {
+      super();
     }
-    public Manager(int userId,String username,String password, int employeeId, Date hireDate, ManagerType managerType) {
-        super(userId,username, password,employeeId, hireDate);
+    public Manager(String name,String password,ManagerType managerType) {
+        super(name, password);
         this.managerType = managerType;
     }
 
@@ -23,22 +20,34 @@ public class Manager extends Employee {
         this.managerType = managerType;
     }
 
-    public void approveStudentRegistration(Student student) {
-        System.out.println("Student " + student.getUsername() + " registration is approved!");
+    public void viewCourses() {
+        System.out.println("Manager is viewing courses.");
     }
-
-    public void addCourseForRegistration(Course course, String major, int year) {
-        System.out.println("Course " + course.getCourseName() + " is added for " + major + " in year " + year);
+    public void viewRequests(){
+        System.out.println("Manager is viewing requests.");
     }
-
-    public void assignCourseToTeacher(Course course, Teacher teacher) {
-        System.out.println("Course " + course.getCourseName() + " is assigned to " + teacher.getUsername());
+    public void createStatisticReport(){
+        System.out.println("Manager creating a report.");
     }
-
-    public void createAcademicReport() {
-        System.out.println("Academic report created!");
+    public void rejectStipend(){
+        System.out.println("Manager is rejecting stipend.");
     }
+    public void publishNews(){
+        System.out.println("Manager is publishing news.");
+    }
+    public void assignCoursesToTeachers(){
+        System.out.println("Manager is assigning courses.");
+    }
+    public void makeCourse(){
+        System.out.println("Manager is making courses");
+    }
+  public void sendMessage(String message) {
+    System.out.println("Manager " + getName() + " sent a message:" + message);
+  }
 
+  public void sendOrder(String order) {
+    System.out.println("Manager " + getName() + " sent an order:" + order);
+  }
 
   @Override
   public boolean equals(Object o) {

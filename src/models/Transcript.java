@@ -19,10 +19,21 @@ public class Transcript {
 
   public double getGpa(){
     double sum = 0;
-    for(Mark mark: marks){
-        sum += mark.getFinalExam();
+    if(marks.size() > 0) {
+      for (Mark mark : marks) {
+        sum += mark.getFinalMark();
+      }
+      return sum / marks.size();
+    } else {
+      return 0;
     }
-    return sum/ marks.size();
+  }
+  public double getTotalMarks() {
+    double total = 0;
+    for (Mark mark: marks){
+      total += mark.getFinalMark();
+    }
+    return total;
   }
 
   @Override

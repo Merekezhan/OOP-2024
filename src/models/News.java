@@ -1,38 +1,34 @@
 package models;
-
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
-import researchWorks.ResearchPaper;
-
+import java.util.Objects;
+//News.java
 public class News {
-    private String title;
-    private String content;
     private String topic;
-    private List<String> comments;
-    private static List<News> newsList = new ArrayList<>(); // Общий список новостей
-    private boolean pinned;
+    private String content;
+    private Date date;
+    private String organization;
+    private String title;
+    private List<Comment> comments;
+    public News(){
 
-    public News(String title, String content, String topic) {
-        this.title = title;
-        this.content = content;
+    }
+    public News(String topic, String content, Date date, String organization, String title) {
         this.topic = topic;
-        this.pinned = "Research".equalsIgnoreCase(topic);
-        this.comments = new ArrayList<>();
+        this.content = content;
+        this.date = date;
+        this.organization = organization;
+      this.title = title;
+      this.comments = new ArrayList<>();
     }
 
-    // Добавление комментария
-    public void addComment(String comment) {
-        comments.add(comment);
+    public String getTopic() {
+        return topic;
     }
 
-    // Геттеры и сеттеры
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getContent() {
@@ -43,61 +39,67 @@ public class News {
         this.content = content;
     }
 
-    public String getTopic() {
-        return topic;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
-        this.pinned = "Research".equalsIgnoreCase(topic);
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public boolean isPinned() {
-        return pinned;
+    public String getOrganization() {
+        return organization;
     }
 
-    public List<String> getComments() {
-        return new ArrayList<>(comments);
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
-    // Добавление новости в общий список с приоритетом
-    public static void addNews(News news) {
-        newsList.add(news);
-        prioritizeNews();
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
+    public void pinNews(){
+        System.out.println("News " + this.title + " pinned!");
     }
 
-    // Метод для сортировки новостей по приоритету (закреплённые темы идут первыми)
-    private static void prioritizeNews() {
-        newsList.sort(Comparator.comparing(News::isPinned).reversed());
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    News news = (News) o;
+    return Objects.equals(topic, news.topic) && Objects.equals(content, news.content) && Objects.equals(date, news.date) && Objects.equals(organization, news.organization) && Objects.equals(title, news.title);
+  }
 
-    // Создание и добавление новости о публикации научной статьи
-    public static void announcePaper(ResearchPaper paper) {
-        News announcement = new News(
-                "New Research Paper Published!",
-                String.format(
-                        "A new research paper titled '%s' has been published in the journal '%s'.",
-                        paper.getTitle(),
-                        paper.getJournal()
-                ),
-                "Research"
-        );
-        addNews(announcement);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(topic, content, date, organization, title);
+  }
 
-    // Получение всех новостей
-    public static List<News> getAllNews() {
-        return new ArrayList<>(newsList);
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Title: %s\nTopic: %s\nContent: %s\nComments: %s",
-                title,
-                topic,
-                content,
-                comments.isEmpty() ? "No comments yet." : comments
-        );
-    }
+  @Override
+  public String toString() {
+    return "News{" +
+        "topic='" + topic + '\'' +
+        ", content='" + content + '\'' +
+        ", date=" + date +
+        ", organization='" + organization + '\'' +
+        ", title='" + title + '\'' +
+        ", comments=" + comments +
+        '}';
+  }
+public Object getTitles() {
+	return title;
+}
 }

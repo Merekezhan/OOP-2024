@@ -1,59 +1,86 @@
 package controllers;
 
-import models.UserType;
-import models.Student;
+import enums.UserType;
+import models.*;
+import java.util.ArrayList;
+import java.util.List;
+import Database.Database;
 
-import java.util.Vector;
-
-import dll.DBContext;
-import models.Manager;
-import models.Teacher;
-import models.User;
 
 public class UserController {
-	
-	public static boolean createUser(
-			String username,
-			String password, 
-			UserType type) {
-		switch(type) {
-		case TEACHER:
-			Teacher newTeacher = new Teacher(username, password);
-			DBContext.teacher.add(newTeacher);
-			return DBContext.saveTeachers();
-		case STUDENT:
-			Student newStudent = new Student(username, password);
-			break;
-		case MANAGER:
-			Manager newManager = new Manager(username, password);
-			break;
-		default:
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public static Object getUsers(UserType type) {
-		switch(type) {
-		case TEACHER:
-			return DBContext.getTeachers();
-		default:
-			return null;
-		}
-	}
-	
-	public static boolean authorize(String fileName, String username, String password) {
-		if(fileName.equals("teacher.txt")) {
-			Vector<Teacher> teachers = (Vector<Teacher>) getUsers(UserType.TEACHER);
-			
-			for(Teacher t: teachers) {
-				if (t.getName().equals(username)
-						&& t.getPassword().equals(password))
-					return true;
-			}
-		}
-		
-		return false;
-	}
+
+    private static final Database db = Database.getInstance();
+
+    public static boolean createUser(String username, String password, UserType type) {
+        switch (type) {
+            case TEACHER:
+                Teacher newTeacher = new Teacher(username, password, enums.TeacherTitle.TUTOR); // Default title
+                db.addUser(newTeacher);
+                return true;
+            case STUDENT:
+                Student newStudent = new Student(username, password, 1, "Default School", enums.PaymentStatus.UNPAID, 0); // Default year, school, and fee
+                db.addUser(newStudent);
+                return true;
+            case MANAGER:
+                Manager newManager = new Manager(username, password, enums.ManagerType.DEPARTMENT); // Default manager type
+                db.addUser(newManager);
+                return true;
+            case ADMIN:
+              Admin newAdmin = new Admin(username, password, "Default Dean");
+              db.addUser(newAdmin);
+              return true;
+            case FINANCE_MANAGER:
+              FinanceManager newFinanceManager = new FinanceManager(username, password);
+              db.addUser(newFinanceManager);
+              return true;
+            case FINANCE_OFFICE:
+              FinanceOffice newFinanceOffice = new FinanceOffice(username, password);
+              db.addUser(newFinanceOffice);
+            default:
+                return false;
+        }
+    }
+    public static List<? extends User> getUsers(UserType type) {
+    List<User> allUsers = db.getAllUsers();
+    List<User> result = new ArrayList<>();
+    for (User user : allUsers) {
+      switch (type) {
+        case TEACHER:
+          if (user instanceof Teacher) {
+            result.add(user);
+          }
+          break;
+        case STUDENT:
+          if (user instanceof Student) {
+            result.add(user);
+          }
+          break;
+        case MANAGER:
+          if (user instanceof Manager) {
+            result.add(user);
+          }
+          break;
+        case ADMIN:
+          if (user instanceof Admin) {
+            result.add(user);
+          }
+          break;
+        case FINANCE_MANAGER:
+          if (user instanceof FinanceManager) {
+            result.add(user);
+          }
+          break;
+        case FINANCE_OFFICE:
+          if (user instanceof FinanceOffice) {
+            result.add(user);
+          }
+          break;
+      }
+    }
+    return result;
+  }
+    public static boolean authenticate(String username, String password) {
+      User user = db.getUser(username);
+      return user != null && user.getPassword().equals(password);
+  }
 }

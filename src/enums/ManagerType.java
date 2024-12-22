@@ -1,8 +1,5 @@
 package enums;
 
 public enum ManagerType {
-	OR, 
-	DEPARTAMENT,
-	FINANCE_MANAGER
-
+    OR, DEPARTMENT,FINANCE_MANAGER
 }

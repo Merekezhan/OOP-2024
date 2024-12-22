@@ -1,211 +1,238 @@
+//package models;
+//
+//import enums.TeacherTitle;
+//import research.Research;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Objects;
+//import java.util.Comparator;
+////Teacher.java
+//public abstract class Teacher extends Employee implements Research {
+//    private TeacherTitle teacherType;
+//    private List<Course> courses;
+//    private List<ResearchPaper> researchPapers;
+//    private List<ResearchProject> researchProjects;
+//
+//    public Teacher() {
+//        super();
+//    }
+//    public Teacher(String name,String password, TeacherTitle teacherType) {
+//        super(name, password);
+//        this.teacherType = teacherType;
+//      this.researchPapers = new ArrayList<>();
+//      this.researchProjects = new ArrayList<>();
+//        this.courses = new ArrayList<>();
+//    }
+//
+//    public TeacherTitle getTeacherType() {
+//        return teacherType;
+//    }
+//
+//    public void setTeacherType(TeacherTitle teacherType) {
+//        this.teacherType = teacherType;
+//    }
+//
+//    public List<Course> getCourses() {
+//        return courses;
+//    }
+//
+//    public void setCourses(List<Course> courses) {
+//        this.courses = courses;
+//    }
+//
+//    public void sendComplaint(Student student, String message, enums.Urgency urgency) {
+//      System.out.println("Complaint sent with urgency level: " + urgency + " Message:" + message + " about Student: " + student.getName());
+//    }
+//    public int calculateHIndex(){
+//        //calculate method for the h-index of teacher
+//        return this.researchPapers.size();
+//    }
+//    public void viewCourses(){
+//        System.out.println("Teacher " + getName() + " is viewing courses.");
+//    }
+//    public void viewStudents(){
+//        System.out.println("Teacher " + getName() + " is viewing students.");
+//    }
+//
+//    public void sendMessage(String message) {
+//      System.out.println("Teacher " + getName() + " sent a message:" + message);
+//    }
+//
+//    public void sendOrder(String order) {
+//      System.out.println("Teacher " + getName() + " sent an order:" + order);
+//    }
+//
+//
+//  @Override
+//  public List<ResearchPaper> getResearchPapers() {
+//    return researchPapers;
+//  }
+//
+//  public void setResearchPapers(List<ResearchPaper> researchPapers) {
+//    this.researchPapers = researchPapers;
+//  }
+//
+//  @Override
+//  public List<ResearchProject> getResearchProjects() {
+//    return researchProjects;
+//  }
+//
+//  public void setResearchProjects(List<ResearchProject> researchProjects) {
+//    this.researchProjects = researchProjects;
+//  }
+//
+//  @Override
+//  public void printPapers(Comparator<ResearchPaper> comparator) {
+//    this.researchPapers.sort(comparator);
+//    for (ResearchPaper paper: this.researchPapers){
+//      System.out.println(paper.toString());
+//    }
+//  }
+//    @Override
+//    public boolean equals(Object o) {
+//      if (this == o) return true;
+//      if (o == null || getClass() != o.getClass()) return false;
+//      if (!super.equals(o)) return false;
+//      Teacher teacher = (Teacher) o;
+//      return teacherType == teacher.teacherType;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//      return Objects.hash(super.hashCode(), teacherType);
+//    }
+//
+//    @Override
+//    public String toString() {
+//      return "Teacher{" +
+//          "teacherType=" + teacherType +
+//          ", courses=" + courses +
+//          "} " + super.toString();
+//    }
+//}
+package models;
 
-import database.Database;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Vector;
+import enums.TeacherTitle;
+import research.Research;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Comparator;
 
-public class Teacher extends Employee{
-	private static final long serialVersionUID = -1784786685350038867L;
-	private Faculty department;
-	private TeacherPosition position;
-	private Vector<Course> courses;
-	private Schedule teacherSchedule;
-	private TeacherResearcher researcherAccount;
-	private Vector<ResearchPaper> researchPapers;
-	private Vector<Integer> rates;
-	
-	{
-		researchPapers = new Vector<ResearchPaper>();
-		rates = new Vector<Integer>();
-	}
-	
-	public Teacher(String userID, String login, String password, String firstName, String lastName, double salary, Faculty dep, TeacherPosition pos) {
-		super(userID, login, password, firstName, lastName, salary);
-		this.department = dep;
-		this.position = pos;
-	}
-	public String getName() {
-		return firstName + " " + lastName;
-	}
-	
-	public Faculty getDepartment() {
-		return department;
-	}
-	
-	public TeacherPosition getPosition() {
-		return position;
-	}
-	
-	public Vector<Course> gerCourses(){
-		return courses;
-	}
-	private void validateCourse(Course course) {
-		if (!courses.contains(course)) {
-			throw new IllegalArgumentException("This teacher does not teach the specified course.");
-		}
-	}
+//Teacher.java
+public class Teacher extends Employee implements Research {
+    private TeacherTitle teacherType;
+    private List<Course> courses;
+    private List<ResearchPaper> researchPapers;
+    private List<ResearchProject> researchProjects;
 
-	public String viewStudentInfo(Student student) {
-		return student.firstName + " " + student.lastName+ "\nuserID: "+student.getUserID()+ "\nGPA: "+ student.calculateGPA();
-	}
+    public Teacher() {
+        super();
+    }
 
-	public void becomeResearcher(String researchArea) {
-		researcherAccount = new TeacherResearcher(this, researchArea);
-		System.out.println(this.firstName+" "+ this.lastName + " is now a researcher");
-	}
+    public Teacher(String name, String password, TeacherTitle teacherType) {
+        super(name, password);
+        this.teacherType = teacherType;
+        this.researchPapers = new ArrayList<>();
+        this.researchProjects = new ArrayList<>();
+        this.courses = new ArrayList<>();
+    }
 
-	public void addFirstAttestationMark(Student student, Course course, double points) {
-		validateCourse(course);
-		Mark mark = student.courseAndMarks.getOrDefault(course, new Mark());
-		mark.addToFirstAttestation(points);
-		student.courseAndMarks.put(course, mark);
-		System.out.println("Added " + points + " points to First Attestation for student " + student.lastName+ " "+ student.firstName+ " in course " + course.getName());
-	}
-	public void addSecondAttestationMark(Student student, Course course, double points) {
-		validateCourse(course);
-		Mark mark = student.courseAndMarks.getOrDefault(course, new Mark());
-		mark.addToSecondAttestation(points);
-		student.courseAndMarks.put(course, mark);
-		System.out.println("Added " + points + " points to Second Attestation for student " + student.lastName+ " "+ student.firstName + " in course " + course.getName());
-	}
+    public TeacherTitle getTeacherType() {
+        return teacherType;
+    }
 
-	public void setFinalExamMark(Student student, Course course, double points) {
-		validateCourse(course);
-		Mark mark = student.courseAndMarks.getOrDefault(course, new Mark());
-		mark.setFinalExamMark(points);
-		student.courseAndMarks.put(course, mark);
-		System.out.println("Set Final Exam Mark " + points + " for student " + student.lastName+ " "+ student.firstName + " in course " + course.getName());
-	}
+    public void setTeacherType(TeacherTitle teacherType) {
+        this.teacherType = teacherType;
+    }
 
-	public void assignCourse(Course course) {
-		if (courses.size() >= 5) {
-			throw new IllegalStateException("This teacher cannot handle more than 5 courses.");
-		}
-		courses.add(course);
-		System.out.println("Course assigned: " + course.getName());
-	}
-	public boolean removeCourse(Course course) {
-		return courses.remove(course);
-	}
+    public List<Course> getCourses() {
+        return courses;
+    }
 
-	public String createTask() {
-		String taskDescription = "Create a new task for students regarding course material.";
-		System.out.println("Task created: " + taskDescription);
-		return taskDescription;
-	}
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
 
-	public boolean closeAccess() {
-		boolean accessClosed = true;
-		System.out.println("Access closed: " + accessClosed);
-		return accessClosed;
-	}
-	public void publishResearchPaper(ResearchPaper rp) {
-		researchPapers.add(rp);
-		System.out.println("Research paper published: " + rp.getTitle());
-	}
+    public void sendComplaint(Student student, String message, enums.Urgency urgency) {
+        System.out.println(
+                "Complaint sent with urgency level: "
+                        + urgency
+                        + " Message:"
+                        + message
+                        + " about Student: "
+                        + student.getName());
+    }
 
-	public void generateReport(Course course) {
-		System.out.println("Generating report for course: " + course.getName());
+    public int calculateHIndex() {
+        // calculate method for the h-index of teacher
+        return this.researchPapers.size();
+    }
 
-		//информация о курсе
-		System.out.println("Course Information:");
-		System.out.println("Code: " + course.getCode());
-		System.out.println("Credits: " + course.getCredits());
-		System.out.println("Type: " + course.getType());
-		System.out.println("Faculty: " + course.getFaculty());
-		System.out.println("Maximum Students: " + course.getMaxStudents());
-		System.out.println("Price of the course: " + course.getPrice());
+    public void viewCourses() {
+        System.out.println("Teacher " + getName() + " is viewing courses.");
+    }
 
-		//проверка на пререквизиты
-		if (course.getPrereq().isEmpty()) {
-			System.out.println("No prerequisites for this course.");
-		} else {
-			System.out.println("Prerequisites: ");
-			for (String prereq : course.getPrereq()) {
-				System.out.println(prereq);
-			}
-		}
+    public void viewStudents() {
+        System.out.println("Teacher " + getName() + " is viewing students.");
+    }
 
-		//проверка заполнен ли курс
-		if (course.isFull()) {
-			System.out.println("The course is full.");
-		} else {
-			System.out.println("The course has available slots.");
-		}
+    public void sendMessage(String message) {
+        System.out.println("Teacher " + getName() + " sent a message:" + message);
+    }
 
-		//cписок студентов на курсе
-		System.out.println("Enrolled students (" + course.getStudents().size() + "):");
-		for (Student student : course.getStudents()) {
-			System.out.println(student.getName());
-		}
+    public void sendOrder(String order) {
+        System.out.println("Teacher " + getName() + " sent an order:" + order);
+    }
 
-		//cписок преподавателей
-		System.out.println("Instructors (" + course.getInstructors().size() + "):");
-		for (Teacher instructor : course.getInstructors()) {
-			System.out.println(instructor.getName());
-		}
-	}
+    @Override
+    public List<ResearchPaper> getResearchPapers() {
+        return researchPapers;
+    }
 
-	public List<ResearchPaper> getResearchPapers() {
-		researchPapers.sort((p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle()));
-		return researchPapers;
-	}
+    public void setResearchPapers(List<ResearchPaper> researchPapers) {
+        this.researchPapers = researchPapers;
+    }
 
-	public void sendComplaints(Employee e, String comment) {
-		String complaint = "Complaint about employee: " + e.getName() + ". Comment: " + comment;
-		System.out.println("Complaint sent to: " + e.getName() + ". Comment: " + comment);
-		Database.accessDB().getComplaints().add(complaint);
-	}
+    @Override
+    public List<ResearchProject> getResearchProjects() {
+        return researchProjects;
+    }
 
+    public void setResearchProjects(List<ResearchProject> researchProjects) {
+        this.researchProjects = researchProjects;
+    }
 
-	public void scheduleOfficeHours(String time) {
-		System.out.println("Office hours scheduled at: " + time);
-	}
+    @Override
+    public void printPapers(Comparator<ResearchPaper> comparator) {
+        this.researchPapers.sort(comparator);
+        for (ResearchPaper paper : this.researchPapers) {
+            System.out.println(paper.toString());
+        }
+    }
 
-	public void viewCources() {
-		for(Course c : courses) {
-			System.out.println(c);
-		}
-	}
-	
-	public Schedule getSchedule() {
-		return teacherSchedule;
-	}
-	
-	public double getRating() {
-		double rate = 0;
-		for(double r : rates) rate += r;
-		return rate / rates.size();
-	}
-	
-	public Vector<Integer> getRates(){
-		return rates;
-	}
-	
-	@Override
-	public String getRole() {
-		return "Teacher";
-	}
-	@Override
-	public void userMenu(BufferedReader input) {
-			while(true) {
-				System.out.println("Choose action to do:\n1.View my cources\n2.Get research papers\n3.Generate report\n4.Get schedule");
-				try {
-					int action = Integer.parseInt(input.readLine());
-					if (action == 1) {
-						viewCources();
-					} else if (action == 2) {
-						getResearchPapers();
-					}else if (action == 3) {
-						generateReport(courses.get(0));
-					}else if (action == 4) {
-						getSchedule();
-					}
-				} catch (IOException ioe) {
-						System.out.println("Error occured!");
-						ioe.printStackTrace();
-						}
-					}
-				}
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Teacher teacher = (Teacher) o;
+        return teacherType == teacher.teacherType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), teacherType);
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{"
+                + "teacherType="
+                + teacherType
+                + ", courses="
+                + courses
+                + "} "
+                + super.toString();
+    }
+}

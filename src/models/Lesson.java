@@ -1,65 +1,86 @@
 package models;
-
 import java.util.Date;
 import java.util.Objects;
 //Lesson.java
 public class Lesson {
-    private Course course;
-    private Date date;
-    private String room;
+    private Teacher teacher;
+  private Course course;
+    private Date startTime;
+    private Date endTime;
+  private String studySet;
 
     public Lesson() {
     }
 
-    public Lesson(Course course, Date date, String room) {
+    public Lesson(Teacher teacher, Course course, Date startTime, Date endTime, String studySet) {
+      this.teacher = teacher;
         this.course = course;
-        this.date = date;
-        this.room = room;
+        this.startTime = startTime;
+        this.endTime = endTime;
+      this.studySet = studySet;
     }
 
-    public Course getCourse() {
-        return course;
-    }
+  public Teacher getTeacher() {
+    return teacher;
+  }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
+  public void setTeacher(Teacher teacher) {
+    this.teacher = teacher;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public Course getCourse() {
+    return course;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public void setCourse(Course course) {
+    this.course = course;
+  }
 
-    public String getRoom() {
-        return room;
-    }
+  public Date getStartTime() {
+    return startTime;
+  }
 
-    public void setRoom(String room) {
-        this.room = room;
-    }
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
+  }
+
+  public Date getEndTime() {
+    return endTime;
+  }
+
+  public void setEndTime(Date endTime) {
+    this.endTime = endTime;
+  }
+
+  public String getStudySet() {
+    return studySet;
+  }
+
+  public void setStudySet(String studySet) {
+    this.studySet = studySet;
+  }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Lesson lesson = (Lesson) o;
-    return Objects.equals(course, lesson.course) && Objects.equals(date, lesson.date) && Objects.equals(room, lesson.room);
+    return Objects.equals(teacher, lesson.teacher) && Objects.equals(course, lesson.course) && Objects.equals(startTime, lesson.startTime) && Objects.equals(endTime, lesson.endTime) && Objects.equals(studySet, lesson.studySet);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(course, date, room);
+    return Objects.hash(teacher, course, startTime, endTime, studySet);
   }
 
   @Override
   public String toString() {
     return "Lesson{" +
-        "course=" + course +
-        ", date=" + date +
-        ", room='" + room + '\'' +
+        "teacher=" + teacher +
+        ", course=" + course +
+        ", startTime=" + startTime +
+        ", endTime=" + endTime +
+        ", studySet='" + studySet + '\'' +
         '}';
   }
 }
